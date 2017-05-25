@@ -50,7 +50,7 @@ public class ImageHandler : IHttpHandler
         }
         catch (Exception ex)
         {
-            context.Response.StatusCode = 500;
+            context.Response.StatusCode = 507;
             context.Response.AppendHeader("Access-Control-Allow-Origin", "*");
             context.Response.Write("Exception :" + ex);
         }
