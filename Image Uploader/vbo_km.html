@@ -1,0 +1,627 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">-->
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="ripjar-datetime/dist/material-datetime-picker.css">
+
+    <title>VBO Tickets</title>
+    <style>
+        form.eventform {
+            margin: 25px auto;
+            padding: 15px;
+            width: 100%;
+            max-width: 600px;
+            /*you can remove it when integrate*/
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        .m-t-lg {
+            margin-top: 0em;
+        }
+
+        .m-t-md {
+            margin-top: 2em;
+        }
+
+        .fieldwrap {
+            display: table;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+        .one3, .one9 {
+            display: table-cell;
+            vertical-align: top;
+        }
+
+        .one3 {
+            width: 25%;
+        }
+
+        .one9 {
+            width: 75%;
+        }
+
+        .one12 {
+            width: 100%;
+        }
+
+        .half-wrap {
+            display: flex;
+            justify-content: space-between;
+            margin: 0 0 15px;
+            width: 100%;
+        }
+
+        .half {
+            width: 48%;
+        }
+
+            .half input {
+                height: 42px;
+                box-sizing: border-box;
+            }
+
+        .form-control {
+            background-color: #fcfcfc;
+            display: block;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            height: 34px;
+            padding: 8px;
+        }
+
+        form.eventform label {
+            display: inline-block;
+            margin-bottom: 7px;
+        }
+
+        .fieldwrap textarea {
+            min-height: 100px;
+            max-width: 100%;
+            min-width: 100%;
+            width: 100%;
+        }
+
+        form.eventform label.social {
+            display: inline-block;
+            margin-bottom: 7px;
+            margin-top: 25px;
+        }
+
+        .fieldwrap input {
+            height: 42px;
+        }
+
+        .fieldwrap input, .fieldwrap textarea {
+            display: block;
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+            .fieldwrap input:focus, .fieldwrap textarea:focus {
+                border: 1px solid #69bd66;
+            }
+
+            .fieldwrap input:hover, .fieldwrap input:active,
+            .fieldwrap textarea:hover, .fieldwrap textarea:active {
+                box-shadow: 0 0 5px #69bd66;
+            }
+
+        .fieldwrap a {
+            color: #2D4373;
+            text-decoration: none;
+            margin-right: 12px;
+        }
+
+        .fileContainer {
+            overflow: hidden;
+            position: relative;
+            color: #fff;
+        }
+
+            .fileContainer [type=file] {
+                cursor: inherit;
+                display: block;
+                font-size: 999px;
+                filter: alpha(opacity=0);
+                min-height: 100%;
+                min-width: 100%;
+                opacity: 0;
+                position: absolute;
+                right: 0;
+                text-align: right;
+                top: 0;
+            }
+
+        .fileContainer {
+            background: #46c654;
+            border-radius: 3px;
+            float: left;
+            padding: 6px 15px;
+        }
+
+            .fileContainer [type=file] {
+                cursor: pointer;
+            }
+
+        .postevent-btn {
+            background: #46c654;
+            border: 1px solid #46c654;
+            border-radius: 3px;
+            color: #fff;
+            cursor: pointer;
+            display: block;
+            font-size: 1em;
+            font-weight: 300;
+            padding: 6px 30px;
+        }
+
+        .btn-pr {
+            background: #46c654;
+            border: 1px solid #46c654;
+        }
+
+            .btn-pr .badge {
+                background: #fff;
+                color: #46c654;
+            }
+
+            .btn-pr:hover {
+                background: #ffffff;
+            }
+
+                .btn-pr:hover .badge {
+                    background: #46c654;
+                    color: #fff;
+                }
+
+            .btn-pr:active {
+                background: #36b143;
+            }
+
+            .btn-pr:hover .social-pr {
+                background-position: -35px -23px;
+            }
+
+        .btn-fb:hover {
+            background: #ffffff;
+        }
+
+            .btn-fb:hover .social-fb {
+                background-position: 0px -23px;
+            }
+
+            .btn-fb:hover .badge {
+                color: #fff;
+                background-color: #337ab7;
+            }
+
+        .btn-social {
+            --webkit-transition: background 1s;
+            -moz-transition: background 1s;
+            -ms-transition: background 1s;
+            -o-transition: background 1s;
+            transition: background 1s;
+        }
+
+        .btn-tw:hover {
+            background: #ffffff;
+        }
+
+            .btn-tw:hover .social-tw {
+                background-position: -11px -23px;
+            }
+
+            .btn-tw:hover .badge {
+                background: #5bc0de;
+                color: #fff;
+            }
+
+
+
+
+        .social-sharing {
+            background-image: url("images/social-hover.png");
+            background-repeat: no-repeat;
+            display: block;
+            margin-top: -5px;
+            position: relative;
+            display: inline-block !important;
+            vertical-align: top;
+            vertical-align: -webkit-baseline-middle;
+            vertical-align: middle;
+        }
+
+        .social-fb, .social-pr, .social-tw {
+            margin-left: 0px;
+            margin-right: 6px;
+        }
+
+        .social-fb {
+            background-position: 0px 3px;
+            width: 12px;
+            height: 25px;
+        }
+
+        .social-pr {
+            background-position: -35px 3px;
+            width: 24px;
+            height: 25px;
+        }
+
+        .social-tw {
+            background-position: -11px 3px;
+            width: 23px;
+            height: 25px;
+        }
+
+        .badgebox {
+            opacity: 0;
+        }
+
+            .badgebox + .badge {
+                text-indent: -999999px;
+                width: 27px;
+            }
+
+            .badgebox:focus + .badge {
+                box-shadow: inset 0px 0px 5px;
+            }
+
+            .badgebox:checked + .badge {
+                text-indent: 0;
+            }
+
+        .event-image-container {
+            width: 50%;
+            min-height: 100px;
+            cursor: pointer;
+        }
+
+        #eventImage {
+            width: 100%;
+            display: block;
+        }
+
+
+        /*To resolve affect of bootstrap on datepicker*/
+        .c-datepicker--open, .c-datepicker--open * {
+            box-sizing: content-box;
+        }
+        /**********************/
+        /*Progress bar*/
+        .progress {
+            height: 10px;
+            margin-bottom: 0px;
+        }
+    </style>
+
+</head>
+
+<body class="container">
+    <div class="">
+        <form class="eventform" method="post" action="">
+            <!--<a class="c-btn c-datepicker-btn">
+                <span class="material-icon">Open date picker</span>
+            </a>-->
+            <!--<div class="">
+                <div>
+                    <br>
+                    <br>
+                    <br>
+                    <label for="primary" class="btn btn-primary"><i class="social-sharing social-fb"></i><input type="checkbox" id="primary" class="badgebox"><span class="badge">&check;</span></label>
+                    <label for="info" class="btn btn-info"><i class="social-sharing social-tw"></i><input type="checkbox" id="info" class="badgebox"><span class="badge">&check;</span></label>
+                </div>
+            </div>-->
+            <br><br>
+            <div class="">
+                <div class="event-image-container">
+                    <div class="one12 thumbnail">
+                        <img src="images/eventImage.png" alt="Event Image" id="eventImage" />
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-danger" style="width: 0%" id="eventImageProgress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="fieldwrap" style="display:none;">
+                    <div class="one12">
+                        <!--<label>Event Picture</label>-->
+                        <label class="fileContainer">
+                            <i class="glyphicon glyphicon-upload"></i>
+                            Upload Event Picture if available!
+                            <input id="imageFile" type="file" accept="image/*" />
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="well">
+                <div class="fieldwrap">
+                    <div class="one12">
+                        <label>Event Name</label>
+                        <input type="text" id="name" class="form-control">
+                    </div>
+                </div>
+                <div class="fieldwrap">
+                    <div class="one12">
+                        <label>Event Venue</label>
+                        <input type="text" id="venue" class="form-control">
+                    </div>
+                </div>
+                <div class="fieldwrap half-wrap">
+
+                    <div class="one12 half">
+                        <label>Event Date/Time From:</label>
+                        <input type="text" id="datefrom" data-toggle="tooltip" data-placement="left" title="Click to select Event start date" readonly class="form-control datefrom date">
+                    </div>
+
+                    <div class="one12 half">
+                        <label>Event Date/Time To:</label>
+                        <input type="text" id="dateto" data-toggle="tooltip" data-placement="right" title="Click to select Event End Date." readonly class="form-control dateto date">
+                    </div>
+
+                </div>
+                <div class="fieldwrap">
+                    <div class="one12">
+                        <label>Event Message</label>
+                        <textarea rows="5" class="form-control"></textarea>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="well">
+                <div class="fieldwrap m-t-lg">
+                    <div class="one12">
+                        <label>Share on Social Media!</label><br>
+                        <label for="fb" data-toggle="tooltip" data-placement="left" title="Share on Facebook" class="btn btn-primary btn-fb btn-social">
+                            <i class="social-sharing social-fb"></i>
+                            <input type="checkbox" id="fb" class="badgebox hidden">
+                            <span class="badge">&check;</span>
+                        </label>
+                        <label for="tw" data-toggle="tooltip" data-placement="bottom" title="Share on Twitter" class="btn btn-info btn-tw btn-social">
+                            <i class="social-sharing social-tw"></i>
+                            <input type="checkbox" id="tw" class="badgebox hidden">
+                            <span class="badge">&check;</span>
+                        </label>
+                        <label for="pr" data-toggle="tooltip" data-placement="right" title="Press Release" class="btn btn-pr btn-social">
+                            <i class="social-sharing social-pr"></i>
+                            <input type="checkbox" id="pr" class="badgebox hidden">
+                            <span class="badge">&check;</span>
+                        </label>
+                    </div>
+
+                </div>
+                <div class="fieldwrap">
+                    <div class="one12">
+                        <label>Schedule Post at</label>
+                        <input type="text" id="datepost" data-toggle="tooltip" data-placement="top" title="Select date and time." readonly class="form-control datefrom date">
+                    </div>
+                </div>
+            </div>
+
+            <div class="fieldwrap">
+                <div class="one12">
+                    <button type="submit" class="m-t-md postevent-btn">Post Event</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="https://unpkg.com/babel-polyfill@6.2.0/dist/polyfill.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rome/2.1.22/rome.standalone.js"></script>
+    <script src="ripjar-datetime/dist/material-datetime-picker.js" charset="utf-8"></script>
+    <script src="scripts/jquery-1.10.2.min.js"></script>
+    <script src="scripts/moment-timezone-with-data.js"></script>
+    <script src="scripts/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+    <!-- Date pickers -->
+    <script>
+        var dateFormat="MM/DD/YYYY HH:mm"
+        var picker = new MaterialDatetimePicker({
+            format: 'DD/MM/YY',
+            default: moment(),
+        });
+
+        $(".date").click(function () {
+            picker.open();
+            var selectedDateElement = this;
+            picker.on("submit", function (date) {
+                //$(dateElement).val(date.format("DD/MM/YYYY"));
+                //$(selectedDateElement).val(date);
+                var selectedId = $(selectedDateElement).attr("id");
+                if (selectedId == "datefrom") {
+                    validateFromDate(selectedDateElement, date);
+                }
+                else if (selectedId == "dateto") {
+                    validateToDate(selectedDateElement, date);
+                }
+                else if (selectedId == "datepost") {
+                    validateSocialPostDate(selectedDateElement, date);
+                }
+                selectedDateElement = NaN;
+            }, false);
+        });
+
+
+        function validateFromDate(fromDateElement, fromDate) {
+            var now = moment();
+            var toDateElement = $("#dateto");
+            if (fromDate < now) {
+                alert("Invalid Start Date\nEvent should start later from now.")
+                $(fromDateElement).val("");
+                $(fromDateElement).css('border', '3px solid red')
+            }
+            else if ($(toDateElement).val() != "") {
+                var toDate = new Date($(toDateElement).val());
+                if (fromDate > toDate) {
+                    alert("Invalid Start Date\nStart date should be less than End date.");
+                    $(fromDateElement).val("");
+                    $(fromDateElement).css('border', '3px solid red')
+                }
+                else {
+                    $(fromDateElement).val(fromDate.format(dateFormat));
+                    $(fromDateElement).css('border', '2px solid green')
+                }
+            }
+            else {
+                $(fromDateElement).val(fromDate.format(dateFormat));
+                $(fromDateElement).css('border', '2px solid green')
+            }
+        }
+
+        function validateToDate(toDateElement, toDate) {
+            var now = moment();
+            var fromDateElement = $("#datefrom");
+            if ($(fromDateElement).val() != "") {
+                var fromDate = new Date($(fromDateElement).val());
+                if (toDate < fromDate) {
+                    alert("Invalid End Date\nEnd date should be greater than Start date.");
+                    $(toDateElement).val("");
+                    $(toDateElement).css('border', '3px solid red')
+                }
+                else {
+                    $(toDateElement).val(toDate.format(dateFormat));
+                    $(toDateElement).css('border', '2px solid green')
+                }
+            }
+            else if (toDate < now) {
+                alert("Invalid End Date\nEvent should End later from now.");
+                $(toDateElement).val("");
+                $(toDateElement).css('border', '3px solid red')
+            }
+            else {
+                $(toDateElement).val(toDate.format(dateFormat));
+                $(toDateElement).css('border', '2px solid green')
+
+            }
+        }
+
+        function validateSocialPostDate(postDateElement, postDate) {
+            var now = moment();
+
+            if (postDate < now) {
+                alert("Invalid Post Date\nEvent can be posted later from now.");
+                $(postDateElement).val("");
+                $(postDateElement).css('border', '3px solid red')
+            }
+            else {
+                $(postDateElement).val(postDate.format(dateFormat));
+                $(postDateElement).css('border', '2px solid green')
+            }
+        }
+
+        function getServerTime(date) {
+
+            var format = 'YYYY/MM/DD HH:mm:ss ZZ';
+            //date = moment.tz(date, "America/Dawson").format(format);
+            date = moment.tz(date, "America/Tijuana").format(format);
+
+            return date;
+
+        }
+
+    </script>
+
+
+    <!--Preview and upload image-->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var MB4 = 4194304;
+            var MB3 = 3145728;
+            var MB20 = 20971520;
+            //on file change
+
+            $("#eventImage").click(function () {
+                $("#imageFile").click();
+                $("#eventImageProgress").css("width", 0 + "%")
+            });
+            $("#imageFile").change(function () {
+                var preview = $("#eventImage");
+                var imageFile = $("#imageFile");
+                $("#eventImageProgress").css("width", 0 + "%")
+                var file = $(imageFile)[0].files[0];
+                if (file.size > MB20) {
+                    alert("Please select Image of size upto 20MB");
+                    imageFile.val("");
+                    return;
+                }
+                var reader = new FileReader();
+                var data = new FormData();
+                data.append("image", file);
+                $.ajax({
+                    url: "ImageHandler.ashx",
+                    method: "post",
+
+                    processData: false,
+                    contentType: false,
+
+                    data: data,
+                    xhr: function () {
+                        var myXhr = $.ajaxSettings.xhr();
+                        if (myXhr.upload) {
+                            myXhr.upload.addEventListener('progress', imageUploadProgress, false);
+                        }
+                        return myXhr;
+                    },
+                    success: function (result) {
+                        //alert("Successfully uploaded.")
+                        imageFile.val("");
+                    },
+                    error: function (err) {
+                        imageFile.val("");
+                        //   console.log(err);
+                    }
+
+                });
+                reader.onloadend = function () {
+                    $(preview).attr("src", reader.result);
+                }
+
+                if (file) {
+                    reader.readAsDataURL(file);
+                } else {
+                    preview.src = "";
+                }
+            })
+
+            function imageUploadProgress(e) {
+
+                if (e.lengthComputable) {
+                    var max = e.total;
+                    var current = e.loaded;
+                    
+                    var Percentage = (current * 100) / max;
+                    //console.log(Percentage);
+                    $("#eventImageProgress").css("width",Percentage+"%")
+
+                    if (Percentage >= 100) {
+                        // process completed
+                        $("#eventImageProgress").removeClass("progress-bar-danger");
+                        $("#eventImageProgress").addClass("progress-bar-success");
+                    }
+                }
+            }
+
+        });
+    </script>
+
+</body>
+
+</html>

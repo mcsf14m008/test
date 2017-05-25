@@ -3,24 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Image Uploader(1)", "E:\IqvisProjects\VBO WEB\VBO Image test\Image Uploader\", "{BB57875A-F7E6-4566-A94A-652ABCB63C3F}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Image Uploader(2)", "Image Uploader\", "{65CDD4E4-9E57-4C38-AB0F-5A93E57D3D5D}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_45745"
-		Debug.AspNetCompiler.PhysicalPath = "E:\IqvisProjects\VBO WEB\VBO Image test\Image Uploader\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_45745\"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_8745"
+		Debug.AspNetCompiler.PhysicalPath = "Image Uploader\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_8745\"
 		Debug.AspNetCompiler.Updateable = "true"
 		Debug.AspNetCompiler.ForceOverwrite = "true"
 		Debug.AspNetCompiler.FixedNames = "false"
 		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_45745"
-		Release.AspNetCompiler.PhysicalPath = "E:\IqvisProjects\VBO WEB\VBO Image test\Image Uploader\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_45745\"
+		Release.AspNetCompiler.VirtualPath = "/localhost_8745"
+		Release.AspNetCompiler.PhysicalPath = "Image Uploader\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_8745\"
 		Release.AspNetCompiler.Updateable = "true"
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "45745"
+		VWDPort = "8745"
+		SlnRelativePath = "Image Uploader\"
 	EndProjectSection
 EndProject
 Global
@@ -28,8 +29,8 @@ Global
 		Debug|Any CPU = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BB57875A-F7E6-4566-A94A-652ABCB63C3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BB57875A-F7E6-4566-A94A-652ABCB63C3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65CDD4E4-9E57-4C38-AB0F-5A93E57D3D5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65CDD4E4-9E57-4C38-AB0F-5A93E57D3D5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
