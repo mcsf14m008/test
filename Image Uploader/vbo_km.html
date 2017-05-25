@@ -550,7 +550,9 @@
 
             $("#eventImage").click(function () {
                 $("#imageFile").click();
-                $("#eventImageProgress").css("width", 0 + "%")
+                $("#eventImageProgress").css("width", 0 + "%");
+                 $("#eventImageProgress").removeClass("progress-bar-success");
+                $("#eventImageProgress").addClass("progress-bar-danger");
             });
             $("#imageFile").change(function () {
                 var preview = $("#eventImage");
