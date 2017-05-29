@@ -205,7 +205,7 @@
                 background-color: #337ab7;
             }
 
-        .btn-social {
+        .btn-social,.btn-save {
             --webkit-transition: background 1s;
             -moz-transition: background 1s;
             -ms-transition: background 1s;
@@ -225,7 +225,10 @@
                 background: #5bc0de;
                 color: #fff;
             }
-
+        .btn-save:hover {
+            background:white;
+            color:green;
+        }
 
 
 
@@ -304,31 +307,46 @@
             margin-bottom: 0px;
         }
     </style>
+    
+    <!-- image -->
+    <style>
+        #imageLayout {
+        position:relative;width:100% ; height:185px;
+        }
+        #eventImage1 {
+        position:absolute; width:100%;
+        }
+        #eventImage2 {
+        position:absolute;width:100%; z-index:1;display:none;
+        }
 
+    </style>
 </head>
 
 <body class="container">
     <div class="">
         <form class="eventform" method="post" action="">
             <br><br>
-            <div class="" >
+            <div class="">
                 <div class="event-image-container">
-                    <div class="one12 thumbnail">
-                        <img src="images/eventImage.png" alt="Event Image" id="eventImage" />
+                    <div class="thumbnail" id="eventImage">
+                        <div id="imageLayout">
+                            <img src="images/eventImage.png" alt="Event Image" id="eventImage1" />
+                            <img id="eventImage2" />
+                        </div>
                         <div class="progress">
                             <div class="progress-bar progress-bar-danger" style="width: 0%" id="eventImageProgress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
-
+                    <input id="imageFile" type="file" accept="image/*" class="hidden" />
                 </div>
 
-                <div class="fieldwrap" style="display:none;">
+                <div class="fieldwrap">
                     <div class="one12">
                         <!--<label>Event Picture</label>-->
-                        <label class="fileContainer">
+                        <label class="btn btn-success btn-save" id="btnSaveImage">
                             <i class="glyphicon glyphicon-upload"></i>
-                            Upload Event Picture if available!
-                            <input id="imageFile" type="file" accept="image/*" />
+                            Save Image
                         </label>
                     </div>
                 </div>
@@ -369,7 +387,7 @@
             </div>
 
 
-            <div class="well" >
+            <div class="well">
                 <div class="fieldwrap m-t-lg">
                     <div class="one12">
                         <label>Share on Social Media!</label><br>
@@ -406,7 +424,7 @@
                 </div>
             </div>
         </form>
-        
+
     </div>
     <script src="https://unpkg.com/babel-polyfill@6.2.0/dist/polyfill.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.js"></script>
@@ -419,20 +437,10 @@
     <script>
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
-            
+
         });
     </script>
-    <!--<script>
-        $("input[type=checkbox]").change(function () {
-            if ($(this).is(":checked"))
-            {
-                $("#status").text("checked");
-            }
-            else{
-                $("#status").text("unchecked");
-            }
-        });
-    </script>-->
+
     <!-- Date pickers -->
     <script>
         var dateFormat="MM/DD/YYYY HH:mm:ss"
@@ -444,7 +452,7 @@
             {
                 now = now.subtract("minute", remainder).add("minute",5).seconds(0);
             }
-           
+
             var picker = new MaterialDatetimePicker({
                 default: now,
                 format:dateFormat
@@ -556,31 +564,75 @@
             var MB3 = 3145728;
             var MB20 = 20971520;
             //on file change
+            var imageLayout = $("#imageLayout");
+            $(imageLayout).height($("#eventImage1").height() + 5);
+            var imageChanged = false;
 
             $("#eventImage").click(function () {
                 $("#imageFile").click();
                 $("#eventImageProgress").css("width", 0 + "%")
             });
             $("#imageFile").change(function () {
-                var preview = $("#eventImage");
+                var placeholder = $("#eventImage1");
+                var preview = $("#eventImage2");
                 var imageFile = $("#imageFile");
                 $("#eventImageProgress").css("width", 0 + "%")
                 var file = $(imageFile)[0].files[0];
-                if (file.size > MB20) {
-                    alert("Please select Image of size upto 20MB");
+                if (file.size > MB4) {
+                    alert("Please select Image of size upto 4MB");
                     imageFile.val("");
                     return;
                 }
                 var reader = new FileReader();
+
+                reader.onloadend = function () {
+                    $(preview).attr("src", reader.result);
+
+                    //debugger;
+                    var width = $(preview).innerWidth();
+
+                    $(preview).fadeIn(2000);
+                    setTimeout(function () {
+                        var height = $(preview).height();
+                        $("#imageLayout").height(height + 5);
+                    }, 1)
+
+                    $(placeholder).hide();
+                    setTimeout(function () {
+                        $(placeholder).attr("src", reader.result);
+                        $(placeholder).show();
+                        $(preview).hide();
+                    }, 2000);
+                    imageChanged = true;
+                    // $(placeholder).fadeOut(2000);
+                    //setTimeout(function () {
+                    //    $(placeholder).attr("src", reader.result);
+                    //    $(placeholder).show();
+                    //}, 2000)
+
+                }
+
+                if (file) {
+                    reader.readAsDataURL(file);
+                } else {
+                    preview.src = "";
+                }
+            })
+
+            $("#btnSaveImage").click(function () {
+                if ($("#imageFile").val() != ""&&imageChanged)
+                    saveImage();
+                imageChanged = false;
+            });
+            function saveImage() {
+                var file = $(imageFile)[0].files[0];
                 var data = new FormData();
                 data.append("image", file);
                 $.ajax({
                     url: "ImageHandler.ashx",
                     method: "post",
-
                     processData: false,
                     contentType: false,
-
                     data: data,
                     xhr: function () {
                         var myXhr = $.ajaxSettings.xhr();
@@ -591,34 +643,25 @@
                     },
                     success: function (result) {
                         //alert("Successfully uploaded.")
-                        imageFile.val("");
+                       $(imageFile).val("");
                     },
                     error: function (err) {
-                        imageFile.val("");
+                        $(imageFile).val("");
                         //   console.log(err);
                     }
 
                 });
-                reader.onloadend = function () {
-                    $(preview).attr("src", reader.result);
-                }
-
-                if (file) {
-                    reader.readAsDataURL(file);
-                } else {
-                    preview.src = "";
-                }
-            })
+            }
 
             function imageUploadProgress(e) {
 
                 if (e.lengthComputable) {
                     var max = e.total;
                     var current = e.loaded;
-                    
+
                     var Percentage = (current * 100) / max;
                     //console.log(Percentage);
-                    $("#eventImageProgress").css("width",Percentage+"%")
+                    $("#eventImageProgress").css("width", Percentage + "%")
 
                     if (Percentage >= 100) {
                         // process completed
