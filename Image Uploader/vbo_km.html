@@ -323,7 +323,8 @@
                 </div>
             </div>-->
             <br><br>
-            <div class="">
+           
+            <div class="" >
                 <div class="event-image-container">
                     <div class="one12 thumbnail">
                         <img src="images/eventImage.png" alt="Event Image" id="eventImage" />
@@ -381,7 +382,7 @@
             </div>
 
 
-            <div class="well">
+            <div class="well" >
                 <div class="fieldwrap m-t-lg">
                     <div class="one12">
                         <label>Share on Social Media!</label><br>
@@ -403,6 +404,7 @@
                     </div>
 
                 </div>
+                <!--<label id="status"></label>-->
                 <div class="fieldwrap">
                     <div class="one12">
                         <label>Schedule Post at</label>
@@ -417,6 +419,7 @@
                 </div>
             </div>
         </form>
+        
     </div>
     <script src="https://unpkg.com/babel-polyfill@6.2.0/dist/polyfill.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.js"></script>
@@ -429,17 +432,36 @@
     <script>
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
+            
         });
     </script>
+    <!--<script>
+        $("input[type=checkbox]").change(function () {
+            if ($(this).is(":checked"))
+            {
+                $("#status").text("checked");
+            }
+            else{
+                $("#status").text("unchecked");
+            }
+        });
+    </script>-->
     <!-- Date pickers -->
     <script>
-        var dateFormat="MM/DD/YYYY HH:mm"
-        var picker = new MaterialDatetimePicker({
-            format: 'DD/MM/YY',
-            default: moment(),
-        });
-
+        var dateFormat="MM/DD/YYYY HH:mm:ss"
         $(".date").click(function () {
+            var now = moment();
+            var minutes = now.minutes();
+            var remainder = minutes % 5
+            if (remainder > 0)
+            {
+                now = now.subtract("minute", remainder).add("minute",5).seconds(0);
+            }
+           
+            var picker = new MaterialDatetimePicker({
+                default: now,
+                format:dateFormat
+            });
             picker.open();
             var selectedDateElement = this;
             picker.on("submit", function (date) {
@@ -550,9 +572,7 @@
 
             $("#eventImage").click(function () {
                 $("#imageFile").click();
-                $("#eventImageProgress").css("width", 0 + "%");
-                 $("#eventImageProgress").removeClass("progress-bar-success");
-                $("#eventImageProgress").addClass("progress-bar-danger");
+                $("#eventImageProgress").css("width", 0 + "%")
             });
             $("#imageFile").change(function () {
                 var preview = $("#eventImage");
