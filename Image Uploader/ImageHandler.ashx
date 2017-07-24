@@ -7,6 +7,7 @@ using System.IO;
 
 public class ImageHandler : IHttpHandler
 {
+    
 
     public bool IsReusable
     {
@@ -50,7 +51,7 @@ public class ImageHandler : IHttpHandler
         }
         catch (Exception ex)
         {
-            context.Response.StatusCode = 507;
+            context.Response.StatusCode = 500;
             context.Response.AppendHeader("Access-Control-Allow-Origin", "*");
             context.Response.Write("Exception :" + ex);
         }

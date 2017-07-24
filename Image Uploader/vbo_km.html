@@ -205,7 +205,7 @@
                 background-color: #337ab7;
             }
 
-        .btn-social,.btn-save {
+        .btn-social, .btn-save {
             --webkit-transition: background 1s;
             -moz-transition: background 1s;
             -ms-transition: background 1s;
@@ -225,9 +225,10 @@
                 background: #5bc0de;
                 color: #fff;
             }
+
         .btn-save:hover {
-            background:white;
-            color:green;
+            background: white;
+            color: green;
         }
 
 
@@ -307,23 +308,31 @@
             margin-bottom: 0px;
         }
     </style>
-    
+
     <!-- image -->
     <style>
         #imageLayout {
-        position:relative;width:100% ; height:185px;
-        }
-        #eventImage1 {
-        position:absolute; width:100%;
-        }
-        #eventImage2 {
-        position:absolute;width:100%; z-index:1;display:none;
+            position: relative;
+            width: 100%;
+            height: 185px;
         }
 
+        #eventImage1 {
+            position: absolute;
+            width: 100%;
+        }
+
+        #eventImage2 {
+            position: absolute;
+            width: 100%;
+            z-index: 1;
+            display: none;
+        }
     </style>
 </head>
 
 <body class="container">
+
     <div class="">
         <form class="eventform" method="post" action="">
             <br><br>
@@ -345,7 +354,7 @@
                     <div class="one12">
                         <!--<label>Event Picture</label>-->
                         <label class="btn btn-success btn-save" id="btnSaveImage">
-                            <i class="glyphicon glyphicon-upload"></i>
+                            <i class="glyphicon glyphicon-cloud-upload"></i>
                             Save Image
                         </label>
                     </div>
@@ -420,7 +429,7 @@
 
             <div class="fieldwrap">
                 <div class="one12">
-                    <button type="submit" class="m-t-md postevent-btn">Post Event</button>
+                    <button type="submit" id="postButton" class="m-t-md postevent-btn">Post Event</button>
                 </div>
             </div>
         </form>
@@ -435,9 +444,53 @@
     <script src="scripts/bootstrap.min.js"></script>
 
     <script>
+        var imageString = "";
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
+            $("#postButton").click(function (e) {
+                e.preventDefault();
+                //var postDateValue = $("#datepost").val()
+                //var minutes;
+                //if (postDateValue != "") {
+                //    var postDate = new Date(postDateValue);
+                    
+                //    //var year1 = postDate.getYear();
+                //    //var year = postDate.getFullYear();
+                //    //var month = postDate.getMonth();
+                //    //var date = postDate.getDate();
+                //    //var day = postDate.getDay();
+                //    //var hour = postDate.getHours();
+                //    //var minute = postDate.getMinutes();
+                //    var timeNow = new Date();
+                //    minutes = (postDate - timeNow) / 60000;
+                //    alert(minutes);
+                //    //debugger;
+                //}
+                debugger;
+                var data = {};
+                data["text"] = $("#name").val();
+                data["profile_ids[]"] = "5937e1c4c2b6422d2e238a77";
+                data["now"] = true;
+                data["media[photo]"] = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcST7YDjHjnP5DURcPrZpcFPO6BI6I4kOiqTvNeCy4NRYFbA--5J";
+                
+                $.ajax({
+                    url: "https://api.bufferapp.com/1/updates/create.json",
+                    method: "post",
+                    contentType: "multipart/form-data",
+                    data:JSON.stringify( data),
+                    beforeSend: function (request) {
+                        request.setRequestHeader("Authorization", "Bearer 1/663f306f47f31478127803b01150e255");
+                    },
+                    success: function (result) {
 
+                    },
+                    error: function (error) {
+
+                    }
+                    
+                });
+                
+            });
         });
     </script>
 
@@ -533,15 +586,15 @@
         function validateSocialPostDate(postDateElement, postDate) {
             var now = moment();
 
-            if (postDate < now) {
-                alert("Invalid Post Date\nEvent can be posted later from now.");
-                $(postDateElement).val("");
-                $(postDateElement).css('border', '3px solid red')
-            }
-            else {
+            //if (postDate < now) {
+            //    alert("Invalid Post Date\nEvent can be posted later from now.");
+            //    $(postDateElement).val("");
+            //    $(postDateElement).css('border', '3px solid red')
+            //}
+            //else {
                 $(postDateElement).val(postDate.format(dateFormat));
                 $(postDateElement).css('border', '2px solid green')
-            }
+            //}
         }
 
         function getServerTime(date) {
@@ -571,12 +624,14 @@
             $("#eventImage").click(function () {
                 $("#imageFile").click();
                 $("#eventImageProgress").css("width", 0 + "%")
+                $("#eventImageProgress").removeClass("progress-bar-success");
+                $("#eventImageProgress").addClass("progress-bar-danger");
             });
             $("#imageFile").change(function () {
                 var placeholder = $("#eventImage1");
                 var preview = $("#eventImage2");
                 var imageFile = $("#imageFile");
-                $("#eventImageProgress").css("width", 0 + "%")
+
                 var file = $(imageFile)[0].files[0];
                 if (file.size > MB4) {
                     alert("Please select Image of size upto 4MB");
@@ -586,30 +641,32 @@
                 var reader = new FileReader();
 
                 reader.onloadend = function () {
+                    //load image in hidden img
+                    imageString = reader.result;
                     $(preview).attr("src", reader.result);
-
-                    //debugger;
-                    var width = $(preview).innerWidth();
-
+                    //show image in 2 second fading
                     $(preview).fadeIn(2000);
+
+                    //excutes just after start of fading
                     setTimeout(function () {
+                        //get height of selected image
                         var height = $(preview).height();
+                        //change height of the container according to selected image
                         $("#imageLayout").height(height + 5);
                     }, 1)
-
+                    //hide the placeholder or preciously selected image
                     $(placeholder).hide();
+
+                    //Executes after complete animation of selected image
                     setTimeout(function () {
+                        //set the placeholder image to the selected image
                         $(placeholder).attr("src", reader.result);
+                        //show the placeholder
                         $(placeholder).show();
+                        //hide preview image
                         $(preview).hide();
                     }, 2000);
                     imageChanged = true;
-                    // $(placeholder).fadeOut(2000);
-                    //setTimeout(function () {
-                    //    $(placeholder).attr("src", reader.result);
-                    //    $(placeholder).show();
-                    //}, 2000)
-
                 }
 
                 if (file) {
@@ -619,11 +676,16 @@
                 }
             })
 
+            //on save image button click
             $("#btnSaveImage").click(function () {
-                if ($("#imageFile").val() != ""&&imageChanged)
+                //if a different file is selected the save it
+                if ($("#imageFile").val() != "" && imageChanged)
                     saveImage();
+                if ($("#imageFile").val() == "")
+                    alert("Please Select an Image First");
                 imageChanged = false;
             });
+            //Image save handler
             function saveImage() {
                 var file = $(imageFile)[0].files[0];
                 var data = new FormData();
@@ -643,7 +705,7 @@
                     },
                     success: function (result) {
                         //alert("Successfully uploaded.")
-                       $(imageFile).val("");
+                        $(imageFile).val("");
                     },
                     error: function (err) {
                         $(imageFile).val("");
@@ -652,13 +714,12 @@
 
                 });
             }
-
+            //image uploding progress updater
             function imageUploadProgress(e) {
 
                 if (e.lengthComputable) {
                     var max = e.total;
                     var current = e.loaded;
-
                     var Percentage = (current * 100) / max;
                     //console.log(Percentage);
                     $("#eventImageProgress").css("width", Percentage + "%")
@@ -670,10 +731,7 @@
                     }
                 }
             }
-
         });
     </script>
-
 </body>
-
 </html>
